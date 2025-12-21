@@ -1,11 +1,11 @@
 import streamlit as st
 from datetime import datetime
 
-# -------------------------------
-# Clase CuentaCorriente
-# -------------------------------
 class CuentaCorriente:
-    def __init__(self, numero_cuenta: str, saldo_inicial: float):
+    numero_cuenta : str
+    saldo : float
+    fecha_creacion : int
+    def __init__(self, numero_cuenta, saldo_inicial):
         self.numero_cuenta = numero_cuenta
         self.saldo = saldo_inicial
         self.fecha_creacion = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -25,10 +25,7 @@ class CuentaCorriente:
         else:
             return f"Fondos insuficientes en cuenta {self.numero_cuenta}. Saldo actual: {self.saldo:.2f}"
 
-# -------------------------------
-# Funciones de archivo
-# -------------------------------
-def cargar_cuentas(nombre_archivo="cuentas.txt"):
+def cargar_cuentas(nombre_archivo="cuentas.txt"): #Funcion con archivos
     cuentas = []
     try:
         with open(nombre_archivo, "r") as f:
@@ -44,13 +41,9 @@ def guardar_cuentas(cuentas, nombre_archivo="cuentas.txt"):
         for cuenta in cuentas:
             f.write(f"{cuenta.numero_cuenta},{cuenta.saldo}\n")
 
-# -------------------------------
-# Streamlit App
-# -------------------------------
-st.title("🏦 Banco - Gestión de Cuentas Corrientes")
+st.title("Gestión de Cuentas Corrientes") #Streamlit
 
-# Estado persistente en la sesión
-if "cuentas" not in st.session_state:
+if "cuentas" not in st.session_state: # Streamlit mantiene la iteraciones sin que se reinicien
     st.session_state.cuentas = cargar_cuentas()
 
 # Selección de cuenta
@@ -84,7 +77,7 @@ st.subheader("Crear nueva cuenta")
 nuevo_numero = st.text_input("Número de cuenta")
 saldo_inicial = st.number_input("Saldo inicial", min_value=0.0, step=100.0)
 if st.button("Crear cuenta"):
-    if nuevo_numero and not any(c.numero_cuenta == nuevo_numero for c in cuentas):
+    if nuevo_numero and not any(nuevo_numero == c.numero_cuenta for c in cuentas):
         cuentas.append(CuentaCorriente(nuevo_numero, saldo_inicial))
         st.success(f"Cuenta {nuevo_numero} creada con saldo {saldo_inicial:.2f}")
     else:
@@ -121,3 +114,4 @@ st.write(f"Total retirado: {total_retiros:.2f}")
 if st.button("Guardar cuentas"):
     guardar_cuentas(cuentas)
     st.success("Cuentas guardadas en cuentas.txt")
+    
