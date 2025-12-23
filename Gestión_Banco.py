@@ -74,7 +74,7 @@ with col2:
 
 # Crear nueva cuenta
 st.subheader("Crear nueva cuenta")
-nuevo_numero = st.text_input("Número de cuenta", min_value=1, step=1, format=%d)
+nuevo_numero = st.text_input("Número de cuenta", min_value=1, step=1, format="%d")
 saldo_inicial = st.number_input("Saldo inicial", min_value=0.0, step=100.0)
 if st.button("Crear cuenta"):
     if nuevo_numero and not any(nuevo_numero == c.numero_cuenta for c in cuentas):
