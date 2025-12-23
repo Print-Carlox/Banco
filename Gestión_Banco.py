@@ -74,7 +74,7 @@ with col2:
 
 # Crear nueva cuenta
 st.subheader("Crear nueva cuenta")
-nuevo_numero = st.text_input("Número de cuenta")
+nuevo_numero = st.text_input("Número de cuenta", min_value=1, step=1, format=%d)
 saldo_inicial = st.number_input("Saldo inicial", min_value=0.0, step=100.0)
 if st.button("Crear cuenta"):
     if nuevo_numero and not any(nuevo_numero == c.numero_cuenta for c in cuentas):
@@ -93,17 +93,22 @@ if st.button("Eliminar cuenta"):
 
 # Reportes
 st.subheader("Reportes del día")
+fecha_actual = datetime.now().strftime("%Y-%m-%d")
+st.write(f"Fecha del reporte: {fecha_actual}")
+
 total_depositos = sum(c.depositos_del_dia for c in cuentas)
 total_retiros = sum(c.retiros_del_dia for c in cuentas)
 
 st.write("### Depósitos por cuenta")
 for c in cuentas:
     if c.depositos_del_dia > 0:
+        st.write(f"Cuenta creada el {c.fecha_creacion}")
         st.write(f"Cuenta {c.numero_cuenta}: {c.depositos_del_dia:.2f}")
 
 st.write("### Retiros por cuenta")
 for c in cuentas:
     if c.retiros_del_dia > 0:
+        st.write(f"Cuenta creada el {c.fecha_creacion}")
         st.write(f"Cuenta {c.numero_cuenta}: {c.retiros_del_dia:.2f}")
 
 st.write("### Totales del día")
