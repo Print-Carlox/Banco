@@ -93,22 +93,17 @@ if st.button("Eliminar cuenta"):
 
 # Reportes
 st.subheader("Reportes del día")
-fecha_actual = datetime.now().strftime("%Y-%m-%d")
-st.write(f"Fecha del reporte: {fecha_actual}")
-
 total_depositos = sum(c.depositos_del_dia for c in cuentas)
 total_retiros = sum(c.retiros_del_dia for c in cuentas)
 
 st.write("### Depósitos por cuenta")
 for c in cuentas:
     if c.depositos_del_dia > 0:
-        st.write(f"Cuenta creada el {c.fecha_creacion}")
         st.write(f"Cuenta {c.numero_cuenta}: {c.depositos_del_dia:.2f}")
 
 st.write("### Retiros por cuenta")
 for c in cuentas:
     if c.retiros_del_dia > 0:
-        st.write(f"Cuenta creada el {c.fecha_creacion}")
         st.write(f"Cuenta {c.numero_cuenta}: {c.retiros_del_dia:.2f}")
 
 st.write("### Totales del día")
